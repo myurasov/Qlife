@@ -1,0 +1,52 @@
+// (c) Mikhail Yurasov, 2012
+
+button {
+  text-shadow: 0px 1px 0px white;
+  color: #848484;
+  line-height: 28px;
+  height: 32px;
+  overflow: hidden;
+  padding: 0px 16px 0px 16px;
+  border-radius: 16px;
+  border-width: 2px;
+  border-style: solid;
+  cursor: pointer;
+  margin: 0px;
+  min-width: 100px;
+
+  &:active {
+    opacity: 0.8;
+  }
+
+  &.gray {
+    border-color: @grayBorder;
+    background: #f4f4f4 url("/images/button-bg-gray.png");
+  }
+
+  &.blue {
+    border-color: #89c4f6;
+    background: #cfe9ff url("/images/button-bg-blue.png");
+  }
+
+  &.green {
+    border-color: #87df7d;
+    background: #ceffc8 url("/images/button-bg-green.png");
+  }
+
+  &.red {
+    border-color: #ff968f;
+    background: #ffd9d6 url("/images/button-bg-red.png");
+  }
+
+  &.roundOk {
+    width: 32px;
+    background: #cfe9ff url("/images/button-round-ok.png");
+    min-width: 32px;
+    border: none;
+  }
+}
+
+.buttonSep {
+  width: 10px;
+  display: inline-block;
+}

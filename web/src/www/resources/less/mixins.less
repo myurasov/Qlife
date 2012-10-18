@@ -1,0 +1,51 @@
+// cross-browser transition
+.transition(@val) {
+  -o-transition: @val;
+  -moz-transition: @val;
+  -webkit-transition: @val;
+  -ms-transition: @val;
+  transition: @val;
+}
+
+// cross-browser box-sizing
+.box-sizing(@val) {
+  -o-box-sizing: @val;
+  -ms-box-sizing: @val;
+  -moz-box-sizing: @val;
+  -webkit-box-sizing: @val;
+  box-sizing: @val;
+}
+
+// cross-browser user-select
+.user-select(@val) {
+  -o-user-select: @val;
+  -ms-user-select: @val;
+  -moz-user-select: @val;
+  -webkit-user-select: @val;
+  user-select: @val;
+}
+
+.bgGradient(@start, @end) {
+  //background-color: mix(@start, @end); /* bug in LESS !!! */
+  //filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="@{start}", endColorstr="@{end}");
+  background: -webkit-gradient(linear, left top, left bottom, from(@start), to(@end));
+  background: -moz-linear-gradient(top,  @start,  @end);
+}
+
+// glow on hover
+.hoverGlow (@color: rgba(255,255,255,1)) {
+  .transition(box-shadow 100ms linear);
+  &:hover,
+  &:active {
+    box-shadow: 0px 0px 5px 3px @color;
+  }
+}
+
+// badge icon color
+.iconColor (@color) {
+  color: desaturate(darken(@color, 35%), 30%);
+  @start: lighten(@color, 5%);
+  @end: darken(@color, 20%);
+  background: @color;
+  .bgGradient(@start, @end);
+}

@@ -1,0 +1,29 @@
+{# (c) Mikhail Yurasov, 2012 #}
+
+{% embed "fragments/modal.twig" with {templateId: "settingsModal", classes: "settings"} %}
+
+  {% block title %}
+    My Settings
+
+    <div class="tabs">
+      <div class="tab">Account</div>
+      <div class="tab selected">Devices</div>
+    </div>
+  {% endblock %}
+
+  {% block content %}
+
+    <div class="screens form">
+
+      <div class="screen"></div>
+      <div class="screen selected">devices</div>
+
+    </div>
+
+  {% endblock %}
+
+  {% block footer %}
+    <button class="blue" _save>OK</button>
+    <button class="gray" _cancel _close>Cancel</button>
+  {% endblock %}
+{% endembed %}

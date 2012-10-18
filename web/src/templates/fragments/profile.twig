@@ -1,0 +1,44 @@
+
+  <a class="profileBlock {% if loop and loop.index0 % 2 != 0%}right{% endif %}" href="/{{ profileUser.readableId }}">
+
+    {% if loop and loop.index0 % 2 != 0%}
+    {% else %}
+      <div class="avatar profile">
+        <img src="http://graph.facebook.com/{{ profileUser.facebookId }}/picture?type=large">
+      </div>
+    {% endif %}
+
+    <div class="section profile">
+        {% if loop %}
+          <div class="title">{% if user and profileUser.id == user.id %}Your{% else %}{{ profileUser.name }}'s{% endif %} health profile</div>
+        {% else %}
+          <div class="title">Welcome to {% if userOwnsProfile %}your{% else %}{{ profileUser.name }}'s{% endif %} health profile!</div>
+        {% endif %}
+        <div class="devicesNum badge">
+          <div class="icon">{{ profileUser.devices|length }}</div>
+          <div class="text">{{ profileUser.devices|length == 1 ? 'device' : 'devices' }}</div>
+        </div>
+        <div class="healthScore badge ok">
+          <div class="icon">{{ profileUser.healthProfile.healthScore | number_format(0) }}%</div>
+          <div class="text">health score</div>
+        </div>
+        <div class="bp measure badge">
+          <div class="icon">{{ profileUser.healthProfile.blood.systolic | number_format(0) }}/{{ profileUser.healthProfile.blood.diastolic | number_format(0) }}<br><span>mmHg</span></div>
+          <div class="text">blood pressure</div>
+        </div>
+        <div class="weight measure badge">
+          <div class="icon">{{ profileUser.healthProfile.body.weight | number_format(0) }}<br><span>lbs</span></div>
+          <div class="text">weight</div>
+        </div>
+        <div class="bs measure badge">
+          <div class="icon">{{ profileUser.healthProfile.blood.glucose | number_format(0) }}<br><span>mg/dL</span></div>
+          <div class="text">blood sugar</div>
+        </div>
+    </div>
+
+    {% if loop and loop.index0 % 2 != 0%}
+      <div class="avatar profile">
+        <img src="http://graph.facebook.com/{{ profileUser.facebookId }}/picture?type=large">
+      </div>
+    {% endif %}
+  </a>

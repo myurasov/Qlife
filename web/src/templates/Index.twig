@@ -1,0 +1,12 @@
+{# (c) Mikhail Yurasov, 2012 #}
+
+{% extends "layout.twig" %}
+
+{% block content %}
+  <div class="homepage">
+    {% for profileUser in profileUsers %}
+      {% include "fragments/profile.twig" %}
+    {% endfor %}
+  </div>
+{% endblock %}
+

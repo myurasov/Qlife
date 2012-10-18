@@ -1,0 +1,36 @@
+{# (c) Mikhail Yurasov, 2012 #}
+
+{% if constant("mym\\DEVELOPMENT") %}
+
+  {# Underscore.js #}
+  <script type="text/javascript" src="/scripts/lib/underscore.js"></script>
+
+  {# jQuery #}
+  <script type="text/javascript" src="/scripts/lib/jquery.js"></script>
+  <script type="text/javascript" src="/scripts/lib/jquery.easing.1.3.js"></script>
+
+  {# Highcharts #}
+  <script type="text/javascript" src="/scripts/lib/highcharts.js"></script>
+  <script type="text/javascript" src="/scripts/lib/highcharts-more.js"></script>
+
+  {# Date.format #}
+  <script type="text/javascript" src="/scripts/lib/date.format.js"></script>
+
+  {# common js files #}
+  <script type="text/javascript" src="/scripts/utils.js?{{ build }}"></script>
+  <script type="text/javascript" src="/scripts/mym.EventsMixin.js?{{ build }}"></script>
+  <script type="text/javascript" src="/scripts/mym.Alert.js?{{ build }}"></script>
+  <script type="text/javascript" src="/scripts/mym.Modal.js?{{ build }}"></script>
+  <script type="text/javascript" src="/scripts/qlife.App.js?{{ build }}"></script>
+  <script type="text/javascript" src="/scripts/qlife.Device.js?{{ build }}"></script>
+  <script type="text/javascript" src="/scripts/qlife.BloodPressureMonitor.js?{{ build }}"></script>
+  <script type="text/javascript" src="/scripts/qlife.ANDWeightScale.js?{{ build }}"></script>
+  <script type="text/javascript" src="/scripts/qlife.EntraGlucometer.js?{{ build }}"></script>
+  <script type="text/javascript" src="/scripts/qlife.NoninPulseOximeter.js?{{ build }}"></script>
+  <script type="text/javascript" src="/scripts/qlife.CrossDevice.js?{{ build }}"></script>
+  <script type="text/javascript" src="/scripts/qlife.WeightVsBloodPressure.js?{{ build }}"></script>
+  <script type="text/javascript" src="/scripts/qlife.Profile.js?{{ build }}"></script>
+
+{% else %}
+  <script type="text/javascript" src="/scripts/all.js?{{ build }}"></script>
+{% endif %}

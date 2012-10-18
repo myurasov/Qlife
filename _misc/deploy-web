@@ -1,0 +1,83 @@
+#!/bin/bash
+
+server=sb-2
+rootDir=/Projects/Qlife
+
+# -- Pre-commands
+
+# increase build number
+twigfile="$rootDir/web/src/templates/layout.twig"
+let build=1+`cat $rootDir/web/src/templates/layout.twig | grep "{% set build" | egrep -o "[0-9]+"`
+sed -E "s/{% set build = [0-9]+ %}/{% set build = ${build} %}/g" "${twigfile}" > "${twigfile}.new"
+rm ${twigfile}
+mv "${twigfile}.new" ${twigfile}
+echo "# Build: ${build}"
+
+# compile .less
+echo "# Compiling LESS..."
+lessc "${rootDir}/web/src/www/resources/less/main.less" > "${rootDir}/web/src/www/resources/main.css"
+
+# create retina styles
+echo "# Creating retina styles..."
+php tools/createRetinaStyles.php \
+ "${rootDir}/web/src/www/resources/main.css"\
+ "${rootDir}/web/src/www/" \
+ > "${rootDir}/web/src/www/resources/retina.css"
+
+# compile images to dataUri
+echo "# Compiling data-uris..."
+php tools/createDataUri.php \
+  "${rootDir}/web/src/www/resources/main.css"\
+  "${rootDir}/web/src/www/" \
+  >> "${rootDir}/web/src/www/resources/main.css"
+
+# join/minify js
+echo "# Joining/compressing JS..."
+tools/join-js -m -e all.js "${rootDir}/web/src/templates/fragments/js.twig" "${rootDir}/web/src/www" > "${rootDir}/web/src/www/scripts/all.js"
+
+# libs
+
+echo "# Syncing libs..."
+
+ssh root@$server "mkdir -p /Projects/_libraries/php"
+
+rsync -avz --delete --exclude=".git" --exclude=".DS_Store" \
+ /Projects/_libraries/php/ \
+ root@$server:/Projects/_libraries/php/
+
+ssh root@$server "mkdir -p /Projects/mym-dev/src/"
+
+rsync -avz --delete --exclude=".git" --exclude=".DS_Store" --exclude="_dev"  --exclude="_design" \
+ /Projects/mym-dev/src/ \
+ root@$server:/Projects/mym-dev/src/
+
+# -- Project:
+# todo: exclude "_dev"
+
+echo "# Syncing project..."
+
+ssh root@$server "mkdir -pv ${rootDir}/web/src/"
+
+ssh root@$server "mkdir -pv ${rootDir}/web/data/temp"
+
+ssh root@$server "chmod 0777 ${rootDir}/web/data/temp"
+
+rsync -avz --delete --exclude=".git" --exclude=".DS_Store" \
+  ${rootDir}/web/src/ \
+  root@$server:${rootDir}/web/src/
+
+# -- Post-commands
+
+echo "# Cleaning template cache..."
+ssh root@$server "rm -rf ${rootDir}/web/data/temp/TwigCache/*"
+
+#echo "# Cleaning temp data..."
+#ssh root@$server "rm -rf ${rootDir}/web/data/temp/*"
+
+echo "# Making data/temp writable..."
+ssh root@$server "chmod -R 0777 ${rootDir}/web/data/temp"
+
+#echo "# Restarting Apache..."
+#ssh root@$server "service apache2 restart"
+
+echo "# OK"

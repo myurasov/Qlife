@@ -1,0 +1,463 @@
+body {
+  background-image: url("/images/bg.png");
+  //background-attachment: fixed;
+  padding: 0;
+  margin: 0 auto 30px auto;
+  width: @pageWidth;
+}
+
+body, button, input, select, option, textarea {
+  font-family: "PT Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-size: 16px;
+  color: #555;
+}
+
+// header
+.header {
+  @headerHeight: 65px;
+
+  margin-top: 30px;
+  height: @headerHeight ;
+
+  // logo
+  .logo {
+    width: 135px;
+    height: @headerHeight ;
+    background-image: url("/images/logo.png");
+    background-repeat: no-repeat;
+    float: left;
+  }
+
+  .powered {
+    font-family: "Myriad Pro", "Trebuchet MS", "Tahoma", sans-serif;
+    font-size: 13px;
+    left: -9px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.4);
+    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.4);
+    cursor: default;
+    display: inline-block;
+    margin-top: 3px;
+    position: relative;
+    top: -5px;
+  }
+
+  // login button
+  .facebookLogin {
+    width: 172px;
+    height: 32px;
+    margin-top: 16px;
+    background-image: url("/images/login-fb.png");
+    float: right;
+    border-radius: 16px;
+    .hoverGlow;
+  }
+
+  // user menu
+  .userMenu {
+    float: right;
+      height: @headerHeight;
+      line-height: @headerHeight;
+
+    .avatar {
+      .hoverGlow;
+      height: 50px;
+      width: 50px;
+      display: inline-block;
+      overflow: hidden;
+      border-radius: 27px;
+      border: 2px solid #dadada;
+      box-shadow: 0px 2px 2px 1px rgba(0,0,0,0.4);
+      margin-top: (@headerHeight - 50px - 4px) / 2;
+
+      img {
+        height: inherit;
+        width: inherit;
+        border-radius: 25px;
+      }
+    }
+
+    .greeting {
+      color: white;
+      display: inline-block;
+      height: @headerHeight;
+      line-height: @headerHeight;
+      vertical-align: top;
+      margin-left: 15px;
+      font-size: 1.05em;
+      text-decoration: none;
+    }
+
+    .buttons {
+      margin-left: 15px;
+      vertical-align: top;
+      display: inline-block;
+      height: 24px;
+      margin-top: (@headerHeight - 24px) / 2;
+
+      div, a {
+        height: inherit;
+        vertical-align: top;
+        display: inline-block;
+      }
+
+      .dot {
+        width: 8px;
+        background-image: url("/images/userMenu/userMenu-dot.png");
+      }
+
+      .settings {
+        cursor: pointer;
+        width: 24px;
+        background-image: url("/images/userMenu/userMenu-settings.png");
+        margin-left: 15px;
+
+        &:hover {
+          background-image: url("/images/userMenu/userMenu-settings-active.png");
+        }
+      }
+
+      .logout {
+        width: 24px;
+        background-image: url("/images/userMenu/userMenu-logout.png");
+        margin-left: 10px;
+
+        &:hover {
+          background-image: url("/images/userMenu/userMenu-logout-active.png");
+        }
+      }
+    }
+  }
+}
+
+//
+
+.content {
+  .profileBlock {
+    display: block;
+    white-space: nowrap;
+
+    .avatar {
+      height: 180px;
+      display: inline-block;
+      overflow: hidden;
+      border-radius: 100%;
+      border: 7px solid white;
+      box-shadow: 0px 2px 2px 1px rgba(0,0,0,0.4);
+      line-height: 230px;
+      margin-top: 30px + 20px;
+      margin-right: 30px;
+      vertical-align: top;
+
+      img {
+        height: 180px;
+        max-width: 400px;
+        border-radius: 1000px;
+      }
+    }
+
+    .avatar {
+      .transition(box-shadow 100ms linear);
+     }
+
+     &:hover, &:active {
+      .avatar  {
+        box-shadow: 0px 0px 5px 3px white;
+       }
+     }
+
+    &.right {
+      .avatar {
+        margin-right: 0px;
+        margin-left: 30px;
+      }
+    }
+  }
+
+  .homepage {
+    padding-top: 10px;
+    padding-bottom: 15px;
+
+    .profileBlock {
+      margin-top: 30px;
+      &:first-child {
+        margin-top: 0px;
+      }
+    }
+  }
+
+  .interTitle {
+    height: 40px;
+    margin-top: 30px;
+
+    .text {
+      color: white;
+      font-weight: bold;
+      font-size: 30px;
+      text-shadow: 0px 2px 2px rgba(0,0,0,0.6);
+      line-height: 40px;
+      float: left;
+      cursor: default;
+    }
+
+    .add {
+      width: 32px;
+      height: 32px;
+      background-image: url("/images/addDevice.png");
+      float: right;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+  }
+
+  .section {
+    margin-top: 30px;
+    border-radius: 25px;
+    background-color: hsla(0%, 0%, 100%, 87%);
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.5);
+    overflow: hidden;
+
+    &.profile {
+      display: inline-block;
+      height: 230px;
+      width: 700px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-align: center;
+      white-space: normal;
+      //opacity: 0;
+
+      @totalH: 180px;
+      @iconH: 120px;
+      @textH: 40px;
+
+      .badge {
+        margin-top: (@totalH - @iconH - @textH) / 2 + 5px;
+        margin-left: 20px;
+        display: inline-block;
+        .user-select(none);
+        //cursor: default;
+
+        .text {
+          line-height: @textH;
+          text-align: center;
+          font-size: 1.1em;
+          font-weight: bold;
+          width: @iconH;
+          color: rgba(0,0,0,.22);
+        }
+
+        .icon {
+          width: @iconH;
+          height: @iconH;
+          line-height: @iconH;
+          border-radius: 22px;
+          text-align: center;
+          font-weight: bold;
+          box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.25);
+          border: 5px solid white;
+          .box-sizing(border-box);
+          text-shadow: 0px 1px 1px hsla(0,0%,100%,0.5);
+        }
+
+        &.devicesNum {
+
+          margin-left: 0;
+
+          .icon {
+            //padding-top: 3px;
+            font-size: 6em;
+            .iconColor(hsl(0,0%,93%));
+          }
+        }
+
+        &.healthScore {
+          &.ok .icon  {
+            .iconColor(hsl(122, 80%, 92%));
+          }
+
+          .icon {
+            //padding-top: 3px;
+            font-size: 2em;
+            background: rgba(0,0,0,.11);
+            color: rgba(0,0,0,.22)
+          }
+        }
+
+        &.measure {
+          .icon {
+            line-height: 27px;
+            font-size: 1.6em;
+            padding-top: 31px;
+
+            span {
+             font-size: 0.8em;
+              opacity: 0.7;
+            }
+          }
+
+          &.weight .icon {
+            .iconColor(hsl(151, 90%, 89%));
+          }
+
+          &.bp .icon {
+            .iconColor(hsla(258,75%,90%,1));
+          }
+
+          &.bs .icon {
+            .iconColor(hsla(55,100%,85%,1));
+          }
+        }
+      }
+    }
+
+    &.device {
+      &.crossDevice {
+        &.wvsbp {
+          .chart {
+            height: 450px;
+          }
+        }
+      }
+
+      .diagnostics {
+        margin: 15px;
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 1em;
+        text-align: right;
+        min-height: 40px;
+
+        .health {
+          float: left;
+          font-size: 25px;
+          font-weight: bold;
+          color: hsla(0, 0%, 0%, 0.33);
+        }
+
+        .messages {
+          line-height: 20px;
+          display: inline-block;
+          text-align: left;
+        }
+
+        &.ok {
+          background: hsl(136, 100%, 98%);
+
+          .health .status,
+          .messages .message {
+            color: hsl(120, 56%, 55%);
+          }
+
+          .messages .message.bad {
+            color: hsl(34, 73%, 60%);
+          }
+        }
+
+        &.warning {
+          background: hsl(50, 100%, 96%);
+
+          .health .status,
+          .messages .message {
+            color: hsl(34, 73%, 60%);
+          }
+
+          .messages .message.good {
+            color: hsl(120, 56%, 55%);
+          }
+        }
+
+        &.critical {
+          background: hsl(26, 100%, 98%);
+
+          .health .status,
+          .messages .message {
+            color: hsl(10, 73%, 60%);
+          }
+        }
+      }
+
+      .charts {
+         padding: 5px 20px 15px 10px;
+       }
+
+      .chart {
+        height: 300px;
+        padding: 0px;
+        margin-top: 20px;
+
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+    }
+
+    .title {
+      height: 50px;
+      line-height: 50px;
+      font-size: 1.4em;
+      font-weight: 700;
+      color: #b4b4b4;
+      background: white;
+      padding-left: 15px;
+      border-radius: 25px 25px 0px 0px;
+      text-align: left;
+
+      .sn {
+        color: hsla(0, 0%, 0%, 0.2);
+        margin-left: 15px;
+        font-weight: normal;
+        font-style: italic;
+      }
+
+      .options {
+        display: inline-block;
+        float: right;
+
+        .private {
+          display: inline-block;
+          font-size: 19px;
+          vertical-align: top;
+          margin-top: 1px;
+          margin-right: 33px;
+
+          input {
+            margin: 0px 7px 0px 0px;
+          }
+
+          label {
+            cursor: pointer;
+          }
+        }
+
+        .delete {
+          width: 24px;
+          height: 24px;
+          margin-top: 15px;
+          margin-right: 17px;
+          background-image: url("/images/delete.png");
+          background-repeat: no-repeat;
+          opacity: 0.33;
+          cursor: pointer;
+          display: inline-block;
+
+          &:hover {
+            opacity: 0.22;
+          }
+        }
+      }
+    }
+  }
+}
+
+.footer {
+  font-family: "Myriad Pro", "Trebuchet MS", "Tahoma", sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.4);
+  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.4);
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}

@@ -1,0 +1,102 @@
+{# (c) Mikhail Yurasov, 2012 #}
+
+{% extends "layout.twig" %}
+
+{% block content %}
+
+  {% include "fragments/profile.twig" %}
+
+  <div class="interTitle">
+    <div class="text">{% if userOwnsProfile %}my{% else %}{{ profileUser.firstName }}'s{% endif %} 2net devices</div>
+    {% if userCanEditProfile %}<div class="add" title="Add More"></div>{% endif %}
+  </div>
+
+  <div class="devices"></div>
+
+  {# device template #}
+  <script type="template" class="deviceTemplate">
+
+    <% if (!isPrivate || qlife.app.pageData.userCanEditProfile) { %>
+
+    <div class="section device"  _sortIndex="<%= sortIndex %>">
+      <a name="<%= twoNetDeviceType %>"></a>
+      <div class="title">
+        <%= name %><span class="sn">s/n: <%= serialNumber.substr(0,2) %><%= utils.repeat("x", serialNumber.length - 4) %><%= serialNumber.substr(-2) %></span>
+        {% if userCanEditProfile %}
+          <div class="options">
+            <div class="private"><input type="checkbox" name="isPrivate-<%= id %>" id="isPrivate-<%= id %>" <%= isPrivate ? 'checked' : '' %>><label for="isPrivate-<%= id %>">private</label></div>
+            <div class="delete" title="Remove"></div>
+          </div>
+        {% endif %}
+      </div>
+      <% if (health >= 0) { %>
+        <div class="diagnostics <%= ['ok', 'warning', 'critical'][health] %>">
+            <div class="health" style="line-height: <%= _lh = Math.max(40, diagnosticMessages.length * 20)%>px">
+              health status: <span class="status"><%= ['ok', 'warning', 'critical'][health] %></span>
+            </div>
+            <div class="messages">
+              <% for (i in diagnosticMessages) { %>
+                <span
+                  style="line-height: <%= _lh / diagnosticMessages.length %>px"
+                  class="message <%= diagnosticMessages[i][0] ? 'bad' : 'good' %>">&bull; <%= diagnosticMessages[i][1] %></span><br>
+              <% } %>
+            </div>
+        </div>
+      <% } %>
+      <div class="charts"></div>
+    </div>
+
+    <% } %>
+
+  </script>
+
+  {# cross device template #}
+  <script type="template" class="crossDeviceTemplate">
+    <div class="section device crossDevice <%= type %>" _sortIndex="<%= sortIndex %>">
+      <div class="title">
+        <%= name %>
+        <div class="options">
+          {% if userCanEditProfile %}<div class="delete" title="Remove"></div>{% endif %}
+        </div>
+      </div>
+      <div class="charts"></div>
+    </div>
+  </script>
+
+  {# alert box for deleting store #}
+  {% embed "fragments/alert.twig" with {class: "deleteAlertTemplate", classes: "deleteAlert"} %}
+    {% block body %}
+      Really delete?
+    {% endblock %}
+    {% block buttons %}
+      <button class="blue" _close _cancel>Cancel</button>
+      <button class="red">Delete</button>
+    {% endblock %}
+  {% endembed %}
+
+{% endblock %}
+
+{% block pageDataJson %} {
+  {# devices data #}
+  devices: [
+    {% for device in profileUser.devices  %}
+      {{ device|toJson(
+          "id", "deviceClass", "name",
+          "twoNetDeviceType", "diagnosticMessages", "health",
+          "serialNumber", "sortIndex", "isPrivate",
+          "recentData"
+        )|raw }}
+      {% if not loop.last %},{% endif %}
+    {% endfor %}
+  ],
+  userCanEditProfile: {{ userCanEditProfile|json_encode|raw }}
+} {% endblock %}
+
+
+{% block js %}
+  <script>
+    $(window).ready(function () {
+      qlife.app.initProfile();
+    });
+  </script>
+{% endblock %}

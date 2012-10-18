@@ -1,0 +1,118 @@
+{# (c) Mikhail Yurasov, 2012 #}
+
+{# auto-increasing buld number #}
+{% set build = 147 %}
+
+{% spaceless %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      {% block title %}Qlife{% endblock %} &ndash; Your 2net&trade; Health Hub
+    </title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    {# Favicon #}
+    <link rel="shortcut icon" type="image/png" href="/images/favicon.png?{{ build }}">
+
+    {# Web fonts #}
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    {# Styles #}
+    {% if constant("mym\\DEVELOPMENT") %}
+
+      {# LESS styles #}
+      <link rel="stylesheet/less" type="text/css" href="/resources/less/main.less">
+      <script>less = {env: "development"};</script>
+      <script type="text/javascript" src="/_dev/less-1.3.0.js"></script>
+
+    {% else %}
+
+      {# compiled styles #}
+      <link rel='stylesheet' href='/resources/main.css'>
+
+      {# google analytics #}
+      {% include "fragments/ga.twig" %}
+
+    {% endif %}
+
+    {# retina graphics
+    <link rel='stylesheet' href='/resources/retina.css?{{ build }}'
+          media='only screen and (-moz-min-device-pixel-ratio: 2),
+                only screen and (-o-min-device-pixel-ratio: 2/1),
+                only screen and (-webkit-min-device-pixel-ratio: 2),
+                only screen and (min-device-pixel-ratio: 2)'>#}
+  </head>
+
+  <body>
+
+    <div class="header">
+      <a href="/" class="logo"></a>
+      {# <span class="powered">powered by Qualcomm 2net&trade;</span>  #}
+
+      {% if user %}
+        <div class="userMenu">
+          <a href="/{{ user.readableId }}" class="avatar" title="My Profile">
+            <img src="http://graph.facebook.com/{{ user.facebookId }}/picture?type=square">
+          </a>
+          <a href="/{{ user.readableId }}" class="greeting" title="My Profile">Hi, <b>{{ user.firstName }}</b></a>
+          <div class="buttons">
+            <div class="dot"></div>
+            <a class="settings" title="Settings"></a>
+            <a href="/FacebookAuth/logout" class="logout" title="Sign Out"></a>
+          </div>
+        </div>
+      {% else %}
+        <a href="/FacebookAuth/login" class="facebookLogin"></a>
+      {% endif %}
+
+    </div>
+
+    <div class="content">
+      {% block content %}
+        {# content goes here #}
+      {% endblock %}
+    </div>
+
+    <div class="footer">
+      powered by Qualcomm 2net&trade;<br>
+      &copy; 2012 qlife.us
+    </div>
+
+    <div class="everythingElse">
+
+      {# settings modal #}
+      {% if user %}
+        {% include "fragments/settingsModal.twig" %}
+      {% endif %}
+
+      {# JS #}
+
+      {# Common javascript #}
+      {% include 'fragments/js.twig' %}
+
+      {# Initalize app #}
+      <script type="text/javascript">
+        $(window).ready(function() {
+          qlife.app = new qlife.App({
+            {# user accout data #}
+            user: {{ user|toJson('id')|raw }},
+            {# initializatin data for the current page #}
+            pageData: {% block pageDataJson %}null{% endblock %}
+          });
+        });
+      </script>
+
+      {# Additonal JS #}
+      {% block js %}{% endblock %}
+
+    </div>
+  </body>
+
+</html>
+
+{% endspaceless %}
